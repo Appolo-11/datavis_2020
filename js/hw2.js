@@ -13,7 +13,7 @@ let radius = 'gdp';
 let year = '2000';
 
 // Эти переменные понадобятся в Part 2 и 3
-const params = ['child-mortality', 'fertility-rate', 'gdp', 'life-expectancy', 'population'];
+const params = ['gdp', 'child-mortality', 'fertility-rate', 'life-expectancy', 'population'];
 const colors = ['aqua', 'lime', 'gold', 'hotpink']
 
 // Создаем шкалы для осей и точек
@@ -42,7 +42,7 @@ let points = svg.append("g");
 
 // Part 2: Здесь можно создать шкалы для цвета и радиуса объектов
 const color = d3.scaleOrdinal().range(colors);
-const r = d3.scaleSqrt().range(2, 25);
+const r = d3.scaleSqrt().range([2, 25]);
 
 // Part 2: для элемента select надо задать options http://htmlbook.ru/html/select
 // и установить selected для дефолтного значения
@@ -58,7 +58,8 @@ d3.select('#radius').selectAll('option').data(params).enter().append("option").t
 loadData().then(data => {
     // сюда мы попадаем после загружки данных и можем для начала на них посмортеть:
 
-    console.log(data)
+    console.log(data);
+    console.log( data[xParam] );
 
     // Part 2: здесь мы можем задать пораметр 'domain' для цветовой шкалы
     // для этого нам нужно получить все уникальные значения поля 'region', сделать это можно при помощи 'd3.nest'
@@ -114,8 +115,8 @@ loadData().then(data => {
         
         // Part 2: теперь у нас есть еще одна не постоянная шкала
         let rRange = data.map(d => +d[radius][year]);
-        r.domain(d3.min(rRange), d3.max(rRange));
-
+        r.domain([d3.min(rRange), d3.max(rRange)]);
+        console.log( r( d3.min(rRange) ) );
         
         // Part 1, 2: создаем и обновляем состояние точек
         points.selectAll(".point")
@@ -123,9 +124,13 @@ loadData().then(data => {
          .attr("class", "point")
          .attr("cx", function(d, i) { return x(xRange[i]); })
          .attr("cy", function(d, i) { return y(yRange[i]); })
-         .attr("r", 5)
+         .attr("r", function(d,i) { return r(rRange[i]); } )
          .attr("fill", d => color(d['region']) )
          .attr("opacity", 0.5);
+
+         console.log( data[xParam] );
+         console.log( data["gdp"] );
+
 
         points.selectAll(".point")
          .data(data)
@@ -133,7 +138,7 @@ loadData().then(data => {
          .attr("class", "point")
          .attr("cx", function(d, i) { return x(xRange[i]); })
          .attr("cy", function(d, i) { return y(yRange[i]); })
-         .attr("r", 5)
+         .attr("r", d => r(d[radius][year]))
          .style("fill",  d => color(d['region']))
          .attr("opacity", 0.5);
 

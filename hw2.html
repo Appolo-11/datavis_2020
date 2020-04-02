@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>HW2</title>
+    <link rel="stylesheet" href="css/hw2.css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <script src="https://d3js.org/d3.v5.js"></script>
+    <script src="js/hw2.js" async></script>
+</head>
+
+<body>
+    <div class="header">
+        <h1>Gap Minder Inspired World Health Data</h1>
+    </div>
+    <h1 class="year">2000</h1>
+    <div class="plot">
+        <svg id="scatter-plot"></svg>
+        <div class="side-pan">
+            <div class="selectors">
+                <div>radius:<select id='radius'></select></div>
+                <!-- Part 3: здесь создаются селекторы для осей -->
+            </div>
+        </div>
+    </div>
+    <div class="range-control">
+        <input type="range" class="slider" min="1800" max="2020" value="2000"/>
+    </div>
+</body>
+
+<!-- <script type="text/javascript">
+	d3.csv("data/cmu5.csv").then(function(data) {
+    for (var i = 0; i < data.length; i++) {
+        console.log(data); // [{name: "foo"},{name: "bar"},...]
+    }
+});
+	var x = d3.scaleLinear() // или d3.scaleLinear([10, 130], [0, 960])
+    .domain([d3.min(fertility-rate), d3.max(fertility-rate)]) // тут ages это столбец из данных
+    .range([0, 960]); // начальная и конечная точка в svg
+
+x(20); // 80
+x(50); // 320
+
+x.invert(80); // 20
+x.invert(320); // 50
+</script> -->
+
+</html>

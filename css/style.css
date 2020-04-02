@@ -1,0 +1,23 @@
+rect{display: none;}
+.left-eye:active{display: none;}
+.left-eye:active + rect{display: block;}
+
+.not_smile {
+	display: block;
+}
+
+.smile {
+	display: none;
+}
+
+#happy:checked + label {
+	color: green;
+}
+
+#happy:checked ~ svg g .not_smile {
+	display: none;
+}
+
+#happy:checked ~ svg g .smile {
+	display: block;
+}

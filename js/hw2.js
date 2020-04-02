@@ -47,12 +47,31 @@ const r = d3.scaleSqrt().range([2, 25]);
 // Part 2: для элемента select надо задать options http://htmlbook.ru/html/select
 // и установить selected для дефолтного значения
 
-d3.select('#radius').selectAll('option').data(params).enter().append("option").text(function(d) { return d; });
+d3.select('#radius').selectAll('option')
+            .data(params)
+            .enter().append("option")
+            .property("selected", function(d) { return d === "gdp"; })
+            .text(function(d) { return d; });
 //         ...
 
 
 // Part 3: то же что делали выше, но для осей
-// ...
+const xSelect = d3.select('.selectors').append('div').text("X:").append('select').attr('id', 'x') ;
+const ySelect = d3.select('.selectors').append('div').text("Y:").append('select').attr('id', 'y') ;
+
+xSelect.selectAll("option")
+         .data(params)
+         .enter()
+         .append("option")
+         .property("selected", function(d) { return d === "fertility-rate"; })
+         .text(d => d);
+
+ySelect.selectAll("option")
+         .data(params)
+         .enter()
+         .append("option")
+         .property("selected", function(d) { return d === "child-mortality"; })
+         .text(d => d); 
 
 
 loadData().then(data => {
@@ -75,9 +94,11 @@ loadData().then(data => {
     // подписка на событие 'change' элемента 'select'
     d3.select('#radius').on('change', newRadius);
 
-    // Part 3: подпишемся на изменения селектороы параметров осей
-    // ...
 
+    // Part 3: подпишемся на изменения селектороы параметров осей
+    d3.select('#x').on('change', newX);
+    d3.select('#y').on('change', newY);
+   
     // изменяем значение переменной и обновляем график
     function newYear(){
         year = this.value;
@@ -89,6 +110,19 @@ loadData().then(data => {
         radius = this.value;
         updateChart()
     }
+
+   function newY(){
+        yParam = this.value;
+        updateChart()
+    }
+
+    function newX(){
+        xParam = this.value;
+        updateChart()
+    }
+
+
+
     function updateChart(){
         // Обновляем все лейблы в соответствии с текущем состоянием
         xLable.text(xParam);
